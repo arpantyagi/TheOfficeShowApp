@@ -9,16 +9,32 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            EpisodesScreenView(viewModel: EpisodesViewModel())
+                .tabItem {
+                    Label("Episodes", systemImage: "house.fill")
+                }
+            
+            // Character Tab
+            CharacterScreenView()
+                .tabItem {
+                    Label("Characters", systemImage: "person.fill")
+                }
+            
+            // Settings Tab
+            SettingsScreenView()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape.fill")
+                }
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
 }
+
+
+
+
+
