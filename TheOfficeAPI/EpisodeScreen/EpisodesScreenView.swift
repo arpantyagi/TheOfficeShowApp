@@ -7,12 +7,12 @@
 import SwiftUI
 
 struct EpisodesScreenView: View {
-    @StateObject var viewModel: EpisodesViewModel
+    @StateObject var viewModel = EpisodesViewModel()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(viewModel.episodes) { episode in
-                Text(episode.title)
+                NavigationLink("S\(episode.seasonId)E\(episode.seriesEpisodeNumber): \(episode.title)", value: episode)
                     .onAppear {
                         if episode == viewModel.episodes.last {
                             Task {
@@ -21,14 +21,17 @@ struct EpisodesScreenView: View {
                         }
                     }
             }
+            .padding(.top)
+            .navigationDestination(for: Episode.self, destination: EpisodeDetailsView.init)
             .navigationTitle("Episodes")
             .overlay {
                 Group {
                     if viewModel.isLoading && viewModel.episodes.isEmpty {
-                        ProgressView("Loading")
+                        ProgressView("Loading Episodes")
                     } else if let errorMessage = viewModel.errMessage {
                         Text("Error: \(errorMessage)")
                             .foregroundStyle(.red)
+                            .padding()
                     }
                 }
             }
@@ -39,6 +42,7 @@ struct EpisodesScreenView: View {
     }
 }
 
-//#Preview {
-//    EpisodesScreenView(viewModel: EpisodesViewModel())
-//}
+#Preview {
+    EpisodesScreenView(viewModel: EpisodesViewModel())
+}
+

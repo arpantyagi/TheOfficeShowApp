@@ -10,6 +10,8 @@ protocol TheOfficeServiceProtocol {
     
     func fetchEpisodes(page: Int) async throws -> DataPackage<Episode>
     
+    func fetchCharacters(page: Int) async throws -> DataPackage<Character>
+    
 }
 
 class TheOfficeService: TheOfficeServiceProtocol {
@@ -18,6 +20,12 @@ class TheOfficeService: TheOfficeServiceProtocol {
         let url = URL(string: "https://theofficeapi.dev/api/episodes?page=\(page)")!
         let (data, _) = try await URLSession.shared.data(from: url)
         return try JSONDecoder().decode(DataPackage<Episode>.self, from: data)
+    }
+    
+    func fetchCharacters(page: Int) async throws -> DataPackage<Character> {
+        let url = URL(string: "https://theofficeapi.dev/api/characters?page=\(page)")!
+        let (data,_) = try await URLSession.shared.data(from: url)
+        return try JSONDecoder().decode(DataPackage<Character>.self, from: data)
     }
 }
 

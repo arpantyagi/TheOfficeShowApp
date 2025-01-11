@@ -10,22 +10,15 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            EpisodesScreenView(viewModel: EpisodesViewModel())
-                .tabItem {
-                    Label("Episodes", systemImage: "house.fill")
-                }
-            
-            // Character Tab
-            CharacterScreenView()
-                .tabItem {
-                    Label("Characters", systemImage: "person.fill")
-                }
-            
-            // Settings Tab
-            SettingsScreenView()
-                .tabItem {
-                    Label("Settings", systemImage: "gearshape.fill")
-                }
+            Tab("Episodes", systemImage: "house.fill") {
+                EpisodesScreenView()
+            }
+            Tab("Characters", systemImage: "person.fill") {
+                CharacterScreenView()
+            }
+            Tab("Settings", systemImage: "gearshape.fill") {
+                SettingsScreenView()
+            }
         }
     }
 }
