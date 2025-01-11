@@ -6,6 +6,8 @@
 //
 import SwiftUI
 
+
+
 @MainActor
 class EpisodesViewModel: ObservableObject {
     @Published var episodes: [Episode] = []
@@ -14,7 +16,7 @@ class EpisodesViewModel: ObservableObject {
     
     private let service: TheOfficeServiceProtocol = TheOfficeService()
     private var currentPage: Int = 1
-    private var isLastPage: Bool = false
+    internal var isLastPage: Bool = false
 
     func fetchEpisodes() async {
         guard !isLoading && !isLastPage else { return }

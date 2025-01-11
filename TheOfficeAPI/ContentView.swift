@@ -8,19 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedTab: Tab = .episodes
+    
     var body: some View {
-        TabView {
-            Tab("Episodes", systemImage: "house.fill") {
-                EpisodesScreenView()
-            }
-            Tab("Characters", systemImage: "person.fill") {
-                CharacterScreenView()
-            }
-            Tab("Settings", systemImage: "gearshape.fill") {
-                SettingsScreenView()
-            }
-        }
-    }
+           TabView(selection: $selectedTab) {
+               EpisodesScreenView()
+                   .tabItem {
+                       Label("Episodes", systemImage: "house.fill")
+                   }
+                   .tag(Tab.episodes)
+
+               CharacterScreenView()
+                   .tabItem {
+                       Label("Characters", systemImage: "person.fill")
+                   }
+                   .tag(Tab.characters)
+           }
+           .toolbarBackground(Color.blue.opacity(0.8), for: .tabBar)
+       }
+   }
+
+enum Tab {
+    case episodes, characters
 }
 
 #Preview {

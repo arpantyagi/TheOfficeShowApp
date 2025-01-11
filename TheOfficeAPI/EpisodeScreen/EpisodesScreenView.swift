@@ -15,32 +15,49 @@ struct EpisodesScreenView: View {
                 NavigationLink("S\(episode.seasonId)E\(episode.seriesEpisodeNumber): \(episode.title)", value: episode)
                     .onAppear {
                         if episode == viewModel.episodes.last {
-                            Task {
-                                await viewModel.fetchEpisodes()
-                            }
+                            onLastRowAppear()
                         }
                     }
+                
             }
-            .padding(.top)
             .navigationDestination(for: Episode.self, destination: EpisodeDetailsView.init)
             .navigationTitle("Episodes")
-            .overlay {
-                Group {
-                    if viewModel.isLoading && viewModel.episodes.isEmpty {
-                        ProgressView("Loading Episodes")
-                    } else if let errorMessage = viewModel.errMessage {
-                        Text("Error: \(errorMessage)")
-                            .foregroundStyle(.red)
-                            .padding()
-                    }
+            .overlay(LoadingOverlay2(viewModel: viewModel))
+            if viewModel.isLoading && !viewModel.episodes.isEmpty {
+                withAnimation(.easeInOut) {
+                    ProgressView("Loading More")
                 }
             }
         }
         .task {
+            if viewModel.episodes.isEmpty {
+                await viewModel.fetchEpisodes()
+            }
+        }
+    }
+    
+    fileprivate func onLastRowAppear() {
+        Task {
             await viewModel.fetchEpisodes()
         }
     }
 }
+
+struct LoadingOverlay2: View {
+    let viewModel: EpisodesViewModel
+    var body: some View {
+        Group {
+            if viewModel.isLoading && viewModel.episodes.isEmpty {
+                ProgressView("Loading Episodes")
+            } else if let errorMessage = viewModel.errMessage {
+                Text("Error: \(errorMessage)")
+                    .foregroundStyle(.red)
+                    .padding()
+            }
+        }
+    }
+}
+
 
 #Preview {
     EpisodesScreenView(viewModel: EpisodesViewModel())

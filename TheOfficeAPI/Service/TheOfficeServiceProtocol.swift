@@ -8,28 +8,44 @@ import Foundation
 
 protocol TheOfficeServiceProtocol {
     
-    func fetchEpisodes(page: Int) async throws -> DataPackage<Episode>
+    func fetchEpisodes(page: Int) async throws -> PaginatedData<Episode>
     
-    func fetchCharacters(page: Int) async throws -> DataPackage<Character>
+    func fetchCharacters(page: Int) async throws -> PaginatedData<Character>
     
 }
 
 class TheOfficeService: TheOfficeServiceProtocol {
+    private let session: URLSession
     
-    func fetchEpisodes(page: Int) async throws -> DataPackage<Episode> {
-        let url = URL(string: "https://theofficeapi.dev/api/episodes?page=\(page)")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode(DataPackage<Episode>.self, from: data)
+    init(session: URLSession = URLSession.shared) {
+        self.session = session
     }
     
-    func fetchCharacters(page: Int) async throws -> DataPackage<Character> {
-        let url = URL(string: "https://theofficeapi.dev/api/characters?page=\(page)")!
-        let (data,_) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode(DataPackage<Character>.self, from: data)
+    func fetchEpisodes(page: Int) async throws -> PaginatedData<Episode> {
+        return try await fetchData(endpoing: "episodes", page: page)
+    }
+    
+    func fetchCharacters(page: Int) async throws -> PaginatedData<Character> {
+        return try await fetchData(endpoing: "characters", page: page)
+    }
+    
+    private func fetchData<T: Codable>(endpoing: String, page: Int) async throws -> PaginatedData<T> {
+        guard let url = URL(string: "https://theofficeapi.dev/api/\(endpoing)?page=\(page)")
+        else {
+            throw TheOfficeAPIError.invalidURL
+        }
+        do {
+            let (data, _) = try await session.data(from: url)
+            return try JSONDecoder().decode(PaginatedData<T>.self, from: data)
+        } catch let decodingError as DecodingError {
+            throw TheOfficeAPIError.decodingError(decodingError)
+        } catch let networkError as URLError {
+            throw TheOfficeAPIError.networkError(networkError)
+        }
     }
 }
 
-struct DataPackage<T: Codable>: Codable {
+struct PaginatedData<T: Codable>: Codable {
     let results: [T]
     let meta: Metadata
     
@@ -41,4 +57,10 @@ struct DataPackage<T: Codable>: Codable {
         let nextPage: Int?
         let pageCount: Int
     }
+}
+
+enum TheOfficeAPIError: Error {
+    case invalidURL
+    case decodingError(Error)
+    case networkError(Error)
 }

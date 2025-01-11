@@ -18,13 +18,20 @@ struct CharacterScreenView: View {
                         }
                     }
             }
-            .padding(.top)
             .navigationDestination(for: Character.self, destination: CharacterDetailView.init)
             .navigationTitle("Character")
             .overlay(LoadingOverlay(viewModel: viewModel))
+            if viewModel.isLoading && !viewModel.characters.isEmpty {
+                ProgressView("Loading More")
+                    .animation(.easeIn, value: viewModel.isLoading && !viewModel.characters.isEmpty)
+                
+                
+            }
         }
         .task {
-            await viewModel.fetchCharacter()
+            if viewModel.characters.isEmpty {
+                await viewModel.fetchCharacter()
+            }
         }
     }
     
@@ -37,7 +44,6 @@ struct CharacterScreenView: View {
 
 struct LoadingOverlay: View {
     let viewModel: CharacterViewModel
-    
     var body: some View {
         Group {
             if viewModel.isLoading && viewModel.characters.isEmpty {
@@ -63,6 +69,7 @@ struct CharacterDetailView: View {
             Text("Job: \(character.job?.description ?? "Unknown")")
             
         }
+            .padding()
             .navigationTitle("\(character.name)")
     }
 }
