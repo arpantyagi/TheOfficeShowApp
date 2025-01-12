@@ -45,22 +45,3 @@ class TheOfficeService: TheOfficeServiceProtocol {
     }
 }
 
-struct PaginatedData<T: Codable>: Codable {
-    let results: [T]
-    let meta: Metadata
-    
-    struct Metadata: Codable {
-        let isFirstPage: Bool
-        let isLastPage: Bool
-        let currentPage: Int
-        let previousPage: Int?
-        let nextPage: Int?
-        let pageCount: Int
-    }
-}
-
-enum TheOfficeAPIError: Error {
-    case invalidURL
-    case decodingError(Error)
-    case networkError(Error)
-}

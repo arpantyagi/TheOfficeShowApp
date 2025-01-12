@@ -10,6 +10,14 @@ import SwiftUI
 struct ContentView: View {
     @State private var selectedTab: Tab = .episodes
     
+    init() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        //appearance.backgroundColor = UIColor.systemBackground // Set your desired color
+        // UITabBar.appearance().standardAppearance = appearance
+        // UITabBar.appearance().scrollEdgeAppearance = appearance // Prevent transparency
+    }
+    
     var body: some View {
            TabView(selection: $selectedTab) {
                EpisodesScreenView()
@@ -24,7 +32,6 @@ struct ContentView: View {
                    }
                    .tag(Tab.characters)
            }
-           .toolbarBackground(Color.blue.opacity(0.8), for: .tabBar)
        }
    }
 
