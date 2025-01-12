@@ -18,4 +18,8 @@ class CharacterViewModel: BasePaginatedViewModel<Character> {
             try await service.fetchCharacters(page: page)
         }
     }
+    override func reset() async {
+        await super.reset()
+        await fetchCharacters()
+    }
 }

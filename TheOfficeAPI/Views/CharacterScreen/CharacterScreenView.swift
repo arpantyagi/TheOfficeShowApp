@@ -26,6 +26,9 @@ struct CharacterScreenView: View {
                 await viewModel.fetchCharacters()
             }
         }
+        .refreshable {
+            await viewModel.reset()
+        }
     }
     private var loadingOverlay: some View {
         LoadingOverlay(

@@ -27,6 +27,7 @@
 		E95251A22D31D5EB000DFDE3 /* TheOfficeAPI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheOfficeAPI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E95251B32D31D5F0000DFDE3 /* TheOfficeAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TheOfficeAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E95251BD2D31D5F1000DFDE3 /* TheOfficeAPIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TheOfficeAPIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E95252372D342794000DFDE3 /* FeaturesToDevelop.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FeaturesToDevelop.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +76,7 @@
 		E95251992D31D5EB000DFDE3 = {
 			isa = PBXGroup;
 			children = (
+				E95252372D342794000DFDE3 /* FeaturesToDevelop.md */,
 				E95251A42D31D5EB000DFDE3 /* TheOfficeAPI */,
 				E95251B62D31D5F1000DFDE3 /* TheOfficeAPITests */,
 				E95251C02D31D5F1000DFDE3 /* TheOfficeAPIUITests */,

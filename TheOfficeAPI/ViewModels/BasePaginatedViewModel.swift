@@ -42,7 +42,7 @@ class BasePaginatedViewModel<T:Identifiable & Equatable & Codable>: ObservableOb
         }
     }
     
-    func reset() {
+    func reset() async {
         currentPage = 1
         isLastPage = false
         items.removeAll()

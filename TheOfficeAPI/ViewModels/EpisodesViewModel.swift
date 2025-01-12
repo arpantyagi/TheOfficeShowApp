@@ -17,5 +17,10 @@ class EpisodesViewModel: BasePaginatedViewModel<Episode> {
             try await service.fetchEpisodes(page: currentPage)
         }
     }
+    
+    override func reset() async {
+        await super.reset()
+        await fetchEpisodes()
+    }
 }
 

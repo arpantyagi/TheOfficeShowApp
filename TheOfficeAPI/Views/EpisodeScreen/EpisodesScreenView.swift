@@ -28,6 +28,9 @@ struct EpisodesScreenView: View {
                 await viewModel.fetchEpisodes()
             }
         }
+        .refreshable {
+            await viewModel.reset()
+        }
     }
     
     private var loadingOverlay: some View {
