@@ -9,6 +9,7 @@ import SwiftUI
 struct CharacterScreenView: View {
     @StateObject var viewModel = CharacterViewModel(
         service: TheOfficeService())
+    @State private var searchText: String = ""
     
     var body: some View {
         NavigationStack {
@@ -16,6 +17,7 @@ struct CharacterScreenView: View {
                 .navigationDestination(for: Character.self, destination: CharacterDetailView.init)
                 .navigationTitle("Character")
                 .overlay(loadingOverlay)
+                .searchable(text: $viewModel.searchText, prompt: "Search Characters")
             if viewModel.isLoading && !viewModel.items.isEmpty {
                 ProgressView("Loading More")
                     .animation(.easeIn, value: viewModel.isLoading && !viewModel.items.isEmpty)
@@ -43,7 +45,7 @@ struct CharacterList: View {
     @ObservedObject var viewModel: CharacterViewModel
     
     var body: some View {
-        List(viewModel.items) { character in
+        List(viewModel.filteredItems) { character in
             NavigationLink(
                 "\(character.name)",
                 value: character

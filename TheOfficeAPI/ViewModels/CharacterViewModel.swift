@@ -4,6 +4,7 @@
 //
 //  Created by Arpan Tyagi on 10.01.2025.
 //
+import SwiftUI
 
 class CharacterViewModel: BasePaginatedViewModel<Character> {
     private let service: TheOfficeServiceProtocol

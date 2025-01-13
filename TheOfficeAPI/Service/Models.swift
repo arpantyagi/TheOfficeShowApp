@@ -4,6 +4,10 @@
 //
 //  Created by Arpan Tyagi on 12.01.2025.
 //
+protocol TextSerarchable {
+    var searchText: String { get }
+}
+
 struct PaginatedData<T: Codable>: Codable {
     let results: [T]
     let meta: Metadata
@@ -25,7 +29,7 @@ enum TheOfficeAPIError: Error {
 }
 
 
-struct Episode: Identifiable, Equatable, Codable, Hashable {
+struct Episode: Identifiable, Equatable, Codable, Hashable, TextSerarchable {
     let id: Int
     let title: String
     let episode: String
@@ -37,6 +41,10 @@ struct Episode: Identifiable, Equatable, Codable, Hashable {
     let mainCharacters: [Character]?
     let supportingCharacters: [Character]?
     let recurringCharacters: [Character]?
+    
+    var searchText: String {
+        "\(title) \(episode) \(summary)"
+    }
 }
 
 struct Season: Identifiable, Equatable, Codable, Hashable {
@@ -46,7 +54,7 @@ struct Season: Identifiable, Equatable, Codable, Hashable {
     let endDate: String
 }
 
-struct Character: Identifiable, Equatable, Codable, Hashable {
+struct Character: Identifiable, Equatable, Codable, Hashable, TextSerarchable {
     let id: Int
     let name: String
     let gender: String?
@@ -56,4 +64,9 @@ struct Character: Identifiable, Equatable, Codable, Hashable {
     let firstAppearance: String?
     let lastAppearance: String?
     let actor: String?
+    
+    var searchText: String {
+        "\(name) \(String(describing: actor ?? ""))"
+    }
+
 }

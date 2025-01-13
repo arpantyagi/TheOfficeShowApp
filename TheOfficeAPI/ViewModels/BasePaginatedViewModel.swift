@@ -7,10 +7,21 @@
 import SwiftUI
 
 @MainActor
-class BasePaginatedViewModel<T:Identifiable & Equatable & Codable>: ObservableObject {
+class BasePaginatedViewModel<T:Identifiable & Equatable & Codable & TextSerarchable>: ObservableObject {
     @Published var items: [T] = []
     @Published var isLoading: Bool = false
     @Published var errMessage: String?
+    @Published var searchText: String = ""
+    
+    var filteredItems: [T] {
+        if searchText.isEmpty {
+            return items
+        } else {
+            return items.filter { $0.searchText.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
+
     
     //private let service: TheOfficeServiceProtocol
     private var currentPage: Int = 1

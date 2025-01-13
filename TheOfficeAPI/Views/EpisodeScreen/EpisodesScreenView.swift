@@ -8,6 +8,7 @@ import SwiftUI
 
 struct EpisodesScreenView: View {
     @StateObject var viewModel = EpisodesViewModel(service: TheOfficeService())
+    @State var searchText: String = ""
     
     var body: some View {
         NavigationStack {
@@ -15,6 +16,7 @@ struct EpisodesScreenView: View {
                 .navigationDestination(for: Episode.self, destination: EpisodeDetailsView.init)
                 .navigationTitle("Episodes")
                 .overlay(loadingOverlay)
+                .searchable(text: $viewModel.searchText, prompt:  "Search Episode")
             if viewModel.isLoading && !viewModel.items.isEmpty {
                 Spacer()
                 ProgressView("Loading More")
@@ -55,7 +57,7 @@ struct EpisodesList: View {
     @ObservedObject var viewModel: EpisodesViewModel
     
     var body: some View {
-        List(viewModel.items) { episode in
+        List(viewModel.filteredItems) { episode in
             NavigationLink(
                 "S\(episode.seasonId)E\(episode.seriesEpisodeNumber): \(episode.title)",
                 value: episode
