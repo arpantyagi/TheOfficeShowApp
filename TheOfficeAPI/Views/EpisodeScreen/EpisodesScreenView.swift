@@ -42,15 +42,6 @@ struct EpisodesScreenView: View {
             errorMessage: viewModel.errMessage
         )
     }
-    
-    private var loadingMoreIndicator: some View {
-        Group {
-            if viewModel.isLoading && !viewModel.items.isEmpty {
-                ProgressView("Loading More")
-                    .transition(.opacity)
-            }
-        }
-    }
 }
 
 struct EpisodesList: View {
