@@ -12,17 +12,19 @@ struct EpisodesScreenView: View {
     
     var body: some View {
         NavigationStack {
-            EpisodesList(viewModel: viewModel)
-                .navigationDestination(for: Episode.self, destination: EpisodeDetailsView.init)
-                .navigationTitle("Episodes")
-                .overlay(loadingOverlay)
-                .searchable(text: $viewModel.searchText, prompt:  "Search Episode")
-            if viewModel.isLoading && !viewModel.items.isEmpty {
-                Spacer()
-                ProgressView("Loading More")
-                    .animation(.easeIn, value: viewModel.isLoading && !viewModel.items.isEmpty)
-                    .padding()
-                Spacer()
+            Group {
+                EpisodesList(viewModel: viewModel)
+                    .navigationDestination(for: Episode.self, destination: EpisodeDetailsView.init)
+                    .navigationTitle("Episodes")
+                    .overlay(loadingOverlay)
+                    .searchable(text: $viewModel.searchText, prompt:  "Search Episode")
+                if viewModel.isLoading && !viewModel.items.isEmpty {
+                    Spacer()
+                    ProgressView("Loading More")
+                        .animation(.easeIn, value: viewModel.isLoading && !viewModel.items.isEmpty)
+                        .padding()
+                    Spacer()
+                }
             }
         }
         .task {
