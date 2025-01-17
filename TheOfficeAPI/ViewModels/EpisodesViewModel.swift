@@ -5,7 +5,7 @@
 //  Created by Arpan Tyagi on 10.01.2025.
 //
 
-class EpisodesViewModel: BasePaginatedViewModel<Episode> {
+class EpisodesViewModel: BasePaginatedViewModel<TOEpisode> {
     private let service: TheOfficeServiceProtocol
     
     init(service: TheOfficeServiceProtocol) {

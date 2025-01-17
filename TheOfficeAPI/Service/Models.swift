@@ -22,21 +22,21 @@ struct PaginatedData<T: Codable>: Codable {
     }
 }
 
-enum TheOfficeAPIError: Error {
+enum ServiceError: Error {
     case invalidURL
     case decodingError(Error)
     case networkError(Error)
 }
 
 
-struct Episode: Identifiable, Equatable, Codable, Hashable, TextSerarchable {
+struct TOEpisode: Identifiable, Equatable, Codable, Hashable, TextSerarchable {
     let id: Int
     let title: String
     let episode: String
     let summary: String
     let seriesEpisodeNumber: Int
     let airDate: String
-    let season: Season?
+    let season: TOSeason?
     let seasonId: Int
     let mainCharacters: [Character]?
     let supportingCharacters: [Character]?
@@ -47,7 +47,7 @@ struct Episode: Identifiable, Equatable, Codable, Hashable, TextSerarchable {
     }
 }
 
-struct Season: Identifiable, Equatable, Codable, Hashable {
+struct TOSeason: Identifiable, Equatable, Codable, Hashable {
     let id: Int
     let number: Int
     let startDate: String

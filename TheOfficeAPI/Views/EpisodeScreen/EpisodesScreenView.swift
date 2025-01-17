@@ -14,7 +14,7 @@ struct EpisodesScreenView: View {
         NavigationStack {
             Group {
                 EpisodesList(viewModel: viewModel)
-                    .navigationDestination(for: Episode.self, destination: EpisodeDetailsView.init)
+                    .navigationDestination(for: TOEpisode.self, destination: EpisodeDetailsView.init)
                     .navigationTitle("Episodes")
                     .overlay(loadingOverlay)
                     .searchable(text: $viewModel.searchText, prompt:  "Search Episode")

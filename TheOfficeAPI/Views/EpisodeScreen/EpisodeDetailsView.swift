@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct EpisodeDetailsView: View {
-    let episode: Episode
+    let episode: TOEpisode
     
     var body: some View {
         VStack {

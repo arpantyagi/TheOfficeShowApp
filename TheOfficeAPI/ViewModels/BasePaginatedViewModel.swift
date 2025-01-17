@@ -21,7 +21,6 @@ class BasePaginatedViewModel<T:Identifiable & Equatable & Codable & TextSerarcha
             }
         }
     }
-
     
     //private let service: TheOfficeServiceProtocol
     private var currentPage: Int = 1

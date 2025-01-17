@@ -8,7 +8,7 @@ import Foundation
 
 protocol TheOfficeServiceProtocol {
     
-    func fetchEpisodes(page: Int) async throws -> PaginatedData<Episode>
+    func fetchEpisodes(page: Int) async throws -> PaginatedData<TOEpisode>
     
     func fetchCharacters(page: Int) async throws -> PaginatedData<Character>
     
@@ -21,7 +21,7 @@ class TheOfficeService: TheOfficeServiceProtocol {
         self.session = session
     }
     
-    func fetchEpisodes(page: Int) async throws -> PaginatedData<Episode> {
+    func fetchEpisodes(page: Int) async throws -> PaginatedData<TOEpisode> {
         return try await fetchData(endpoing: "episodes", page: page)
     }
     
@@ -32,15 +32,15 @@ class TheOfficeService: TheOfficeServiceProtocol {
     private func fetchData<T: Codable>(endpoing: String, page: Int) async throws -> PaginatedData<T> {
         guard let url = URL(string: "https://theofficeapi.dev/api/\(endpoing)?page=\(page)")
         else {
-            throw TheOfficeAPIError.invalidURL
+            throw ServiceError.invalidURL
         }
         do {
             let (data, _) = try await session.data(from: url)
             return try JSONDecoder().decode(PaginatedData<T>.self, from: data)
         } catch let decodingError as DecodingError {
-            throw TheOfficeAPIError.decodingError(decodingError)
+            throw ServiceError.decodingError(decodingError)
         } catch let networkError as URLError {
-            throw TheOfficeAPIError.networkError(networkError)
+            throw ServiceError.networkError(networkError)
         }
     }
 }
